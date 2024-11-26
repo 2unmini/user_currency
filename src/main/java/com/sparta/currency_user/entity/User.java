@@ -3,15 +3,21 @@ package com.sparta.currency_user.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Getter
-public class User {
+public class User extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long id; // 고객 고유 식별자
 
-    private String name;
-    private String email;
+    private String name; // 고객 이름
+    private String email; // 고객 이메일
+
+    @OneToMany(mappedBy = "user")
+    private List<CurrencyExchange> currencyExchangeList=new ArrayList<>();
 
     public User(String name, String email) {
         this.name = name;
