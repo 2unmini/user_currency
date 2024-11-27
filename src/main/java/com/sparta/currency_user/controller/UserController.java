@@ -52,4 +52,12 @@ public class UserController {
         session.setAttribute("SESSION_KEY",user.getId());
         return new ResponseEntity<>(HttpStatus.OK);
     }
+    @DeleteMapping("/logout")
+    public ResponseEntity<Void> logout(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        if(session!=null){
+            session.invalidate();
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

@@ -53,4 +53,9 @@ public class CurrencyService {
         return history.stream().map(ChangeCurrencyHistoryResponseDto::todto).toList();
 
     }
+@Transactional
+    public void cancel(Long id) {
+        CurrencyExchange currencyExchange = currencyExchangeRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+        currencyExchange.cancel();
+    }
 }

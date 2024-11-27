@@ -16,7 +16,7 @@ public class User extends BaseEntity {
     private String name; // 고객 이름
     private String email; // 고객 이메일
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user" ,cascade = CascadeType.ALL,orphanRemoval = true)
     private List<CurrencyExchange> currencyExchangeList=new ArrayList<>();
 
     public User(String name, String email) {

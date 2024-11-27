@@ -35,4 +35,7 @@ public class CurrencyExchange {
         this.postExchangeAmount = BigDecimal.valueOf(preExchangeAmount).divide(currency.getExchangeRate(),2, RoundingMode.FLOOR);
         this.status=Status.NOMAL;
     }
+    public void cancel(){
+        this.status=Status.CANCALLED;
+    }
 }

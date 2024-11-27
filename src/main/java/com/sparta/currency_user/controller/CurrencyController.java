@@ -53,4 +53,12 @@ public class CurrencyController {
         List<ChangeCurrencyHistoryResponseDto> changeCurrencyHistory = currencyService.checkHistory(userId);
         return new ResponseEntity<>(changeCurrencyHistory,HttpStatus.OK);
     }
+    @PatchMapping("{id}")
+    public void cancelChangeCurrency(@PathVariable Long id ,HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if(session==null) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,"세션이 없습니다.");
+        }
+        currencyService.cancel(id);
+    }
 }
