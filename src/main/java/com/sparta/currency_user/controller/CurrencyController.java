@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -29,11 +30,11 @@ public class CurrencyController {
     }
 
     @PostMapping
-    public ResponseEntity<CurrencyResponseDto> createCurrency(@RequestBody CurrencyRequestDto currencyRequestDto) {
+    public ResponseEntity<CurrencyResponseDto> createCurrency(@Validated @RequestBody CurrencyRequestDto currencyRequestDto) {
         return ResponseEntity.ok().body(currencyService.save(currencyRequestDto));
     }
     @PostMapping("/{id}/exchange") // 환전 요청
-    public ResponseEntity<ChangeCurrencyResponseDto> changeCurrency(@PathVariable Long id , @RequestBody ChangeCurrencyRequestDto currencyRequestDto, HttpServletRequest request) {
+    public ResponseEntity<ChangeCurrencyResponseDto> changeCurrency(@PathVariable Long id , @Validated @RequestBody ChangeCurrencyRequestDto currencyRequestDto, HttpServletRequest request) {
         HttpSession session = request.getSession(false);
         if(session==null){
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,"세션이 없습니다");
