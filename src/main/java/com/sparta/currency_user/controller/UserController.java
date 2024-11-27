@@ -1,9 +1,14 @@
 package com.sparta.currency_user.controller;
 
-import com.sparta.currency_user.dto.UserRequestDto;
-import com.sparta.currency_user.dto.UserResponseDto;
+import com.sparta.currency_user.dto.user.LoginRequestDto;
+import com.sparta.currency_user.dto.user.UserRequestDto;
+import com.sparta.currency_user.dto.user.UserResponseDto;
+import com.sparta.currency_user.entity.User;
 import com.sparta.currency_user.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,8 +37,19 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteUser(@PathVariable Long id) {
+    public ResponseEntity<String> deleteUser(@PathVariable Long id,HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if(session!=null){
+            session.invalidate();
+        }
         userService.deleteUserById(id);
         return ResponseEntity.ok().body("정상적으로 삭제되었습니다.");
+    }
+    @PostMapping("/login")
+    public ResponseEntity<Void> login(@RequestBody LoginRequestDto requestDto, HttpServletRequest request) {
+        User user = userService.login(requestDto);
+        HttpSession session = request.getSession();
+        session.setAttribute("SESSION_KEY",user.getId());
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

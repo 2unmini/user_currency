@@ -1,9 +1,11 @@
 package com.sparta.currency_user.service;
 
-import com.sparta.currency_user.dto.UserRequestDto;
-import com.sparta.currency_user.dto.UserResponseDto;
+import com.sparta.currency_user.dto.user.LoginRequestDto;
+import com.sparta.currency_user.dto.user.UserRequestDto;
+import com.sparta.currency_user.dto.user.UserResponseDto;
 import com.sparta.currency_user.entity.User;
 import com.sparta.currency_user.repository.UserRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,4 +41,7 @@ public class UserService {
         userRepository.deleteById(id);
     }
 
+    public User login(LoginRequestDto requestDto) {
+        return userRepository.findByEmail(requestDto.getEmail()).orElseThrow(EntityNotFoundException::new);
+    }
 }

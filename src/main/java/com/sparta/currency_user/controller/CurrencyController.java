@@ -1,11 +1,17 @@
 package com.sparta.currency_user.controller;
 
-import com.sparta.currency_user.dto.CurrencyRequestDto;
-import com.sparta.currency_user.dto.CurrencyResponseDto;
+import com.sparta.currency_user.dto.currency.ChangeCurrencyRequestDto;
+import com.sparta.currency_user.dto.currency.ChangeCurrencyResponseDto;
+import com.sparta.currency_user.dto.currency.CurrencyRequestDto;
+import com.sparta.currency_user.dto.currency.CurrencyResponseDto;
 import com.sparta.currency_user.service.CurrencyService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -29,4 +35,16 @@ public class CurrencyController {
     public ResponseEntity<CurrencyResponseDto> createCurrency(@RequestBody CurrencyRequestDto currencyRequestDto) {
         return ResponseEntity.ok().body(currencyService.save(currencyRequestDto));
     }
+    @PostMapping("/{id}/exchange") // 환전 요청
+    public ResponseEntity<ChangeCurrencyResponseDto> changeCurrency(@PathVariable Long id , @RequestBody ChangeCurrencyRequestDto currencyRequestDto, HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if(session==null){
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,"세션이 없습니다");
+        }
+        Long userId = (Long) session.getAttribute("SESSION_KEY");
+
+        ChangeCurrencyResponseDto changeCurrencyResponseDto = currencyService.chargeCurrency(id, userId, currencyRequestDto);
+        return new ResponseEntity<>(changeCurrencyResponseDto, HttpStatus.OK);
+    }
+
 }
