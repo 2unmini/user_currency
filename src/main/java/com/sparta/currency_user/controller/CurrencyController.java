@@ -62,4 +62,14 @@ public class CurrencyController {
         }
         currencyService.cancel(id);
     }
+    @GetMapping("/total")
+    public ResponseEntity<List<TotalUserCurrencyResponseDto>> checkTotal(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if(session==null){
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,"세션이 없습니다");
+        }
+        Long userId = (Long) session.getAttribute("SESSION_KEY");
+        List<TotalUserCurrencyResponseDto> totalUserCurrencyResponseDtos = currencyService.checkTotal(userId);
+        return new ResponseEntity<>(totalUserCurrencyResponseDtos,HttpStatus.OK);
+    }
 }

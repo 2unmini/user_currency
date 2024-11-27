@@ -18,6 +18,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CurrencyService {
     private final UserRepository userRepository;
+    private final UserService userService;
     private final CurrencyRepository currencyRepository;
     private final CurrencyExchangeRepository currencyExchangeRepository;
 
@@ -57,5 +58,11 @@ public class CurrencyService {
     public void cancel(Long id) {
         CurrencyExchange currencyExchange = currencyExchangeRepository.findById(id).orElseThrow(EntityNotFoundException::new);
         currencyExchange.cancel();
+    }
+
+    public List<TotalUserCurrencyResponseDto> checkTotal(Long userId) {
+        User user = userService.findUserById(userId);
+        CurrencyExchange currencyExchange = currencyExchangeRepository.findById(userId).orElseThrow();//이건 일단 이상함 보류
+        return currencyExchangeRepository.findUserCurrencyAndAmount(user.getId(),currencyExchange.getStatus());
     }
 }
