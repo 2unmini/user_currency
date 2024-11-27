@@ -54,13 +54,14 @@ public class CurrencyController {
         List<ChangeCurrencyHistoryResponseDto> changeCurrencyHistory = currencyService.checkHistory(userId);
         return new ResponseEntity<>(changeCurrencyHistory,HttpStatus.OK);
     }
-    @PatchMapping("{id}")
-    public void cancelChangeCurrency(@PathVariable Long id ,HttpServletRequest request) {
+    @PatchMapping("{currencyId}")
+    public void cancelChangeCurrency(@PathVariable Long currencyId ,HttpServletRequest request) {
         HttpSession session = request.getSession(false);
         if(session==null) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,"세션이 없습니다.");
         }
-        currencyService.cancel(id);
+        Long userId = (Long) session.getAttribute("SESSION_KEY");
+        currencyService.cancel(currencyId,userId);
     }
     @GetMapping("/total")
     public ResponseEntity<List<TotalUserCurrencyResponseDto>> checkTotal(HttpServletRequest request) {

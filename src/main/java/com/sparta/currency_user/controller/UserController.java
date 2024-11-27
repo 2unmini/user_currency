@@ -54,7 +54,7 @@ public class UserController {
     }
     @DeleteMapping("/logout")
     public ResponseEntity<Void> logout(HttpServletRequest request) {
-        HttpSession session = request.getSession();
+        HttpSession session = request.getSession(false);
         if(session!=null){
             session.invalidate();
         }

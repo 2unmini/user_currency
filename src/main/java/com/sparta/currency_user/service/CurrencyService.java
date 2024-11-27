@@ -9,15 +9,17 @@ import com.sparta.currency_user.repository.CurrencyRepository;
 import com.sparta.currency_user.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class CurrencyService {
-    private final UserRepository userRepository;
+
     private final UserService userService;
     private final CurrencyRepository currencyRepository;
     private final CurrencyExchangeRepository currencyExchangeRepository;
@@ -42,7 +44,7 @@ public class CurrencyService {
     @Transactional
     public ChangeCurrencyResponseDto chargeCurrency(Long id,Long userId, ChangeCurrencyRequestDto currencyRequestDto) {
         Currency currency = currencyRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("통화를 찾을수 없습니다"));
-        User user = userRepository.findById(userId).orElseThrow(EntityNotFoundException::new);
+        User user = userService.findUserById(userId);
         CurrencyExchange currencyExchange = currencyExchangeRepository.save(new CurrencyExchange(user, currency, currencyRequestDto));
         return new ChangeCurrencyResponseDto(currencyExchange);
 
@@ -55,14 +57,18 @@ public class CurrencyService {
 
     }
 @Transactional
-    public void cancel(Long id) {
-        CurrencyExchange currencyExchange = currencyExchangeRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+    public void cancel(Long currencyId,Long userId) {
+    User user = userService.findUserById(userId);
+    CurrencyExchange currencyExchange = currencyExchangeRepository.findById(currencyId).orElseThrow(EntityNotFoundException::new);
+    if(!user.getId().equals(currencyExchange.getUser().getId())){
+        throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"권한이 없습니다");
+    }
         currencyExchange.cancel();
     }
 
     public List<TotalUserCurrencyResponseDto> checkTotal(Long userId) {
         User user = userService.findUserById(userId);
-        CurrencyExchange currencyExchange = currencyExchangeRepository.findById(userId).orElseThrow();//이건 일단 이상함 보류
+        CurrencyExchange currencyExchange = currencyExchangeRepository.findById(user.getId()).orElseThrow();//이건 일단 이상함 보류
         return currencyExchangeRepository.findUserCurrencyAndAmount(user.getId(),currencyExchange.getStatus());
     }
 }
