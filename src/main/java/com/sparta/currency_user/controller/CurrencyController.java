@@ -1,9 +1,6 @@
 package com.sparta.currency_user.controller;
 
-import com.sparta.currency_user.dto.currency.ChangeCurrencyRequestDto;
-import com.sparta.currency_user.dto.currency.ChangeCurrencyResponseDto;
-import com.sparta.currency_user.dto.currency.CurrencyRequestDto;
-import com.sparta.currency_user.dto.currency.CurrencyResponseDto;
+import com.sparta.currency_user.dto.currency.*;
 import com.sparta.currency_user.service.CurrencyService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -46,5 +43,14 @@ public class CurrencyController {
         ChangeCurrencyResponseDto changeCurrencyResponseDto = currencyService.chargeCurrency(id, userId, currencyRequestDto);
         return new ResponseEntity<>(changeCurrencyResponseDto, HttpStatus.OK);
     }
-
+    @GetMapping("/history")
+    public ResponseEntity<List<ChangeCurrencyHistoryResponseDto>>  checkHistory(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if(session==null) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,"세션이 없습니다.");
+        }
+        Long userId = (Long) session.getAttribute("SESSION_KEY");
+        List<ChangeCurrencyHistoryResponseDto> changeCurrencyHistory = currencyService.checkHistory(userId);
+        return new ResponseEntity<>(changeCurrencyHistory,HttpStatus.OK);
+    }
 }

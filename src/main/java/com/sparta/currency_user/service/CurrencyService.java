@@ -1,9 +1,6 @@
 package com.sparta.currency_user.service;
 
-import com.sparta.currency_user.dto.currency.ChangeCurrencyRequestDto;
-import com.sparta.currency_user.dto.currency.ChangeCurrencyResponseDto;
-import com.sparta.currency_user.dto.currency.CurrencyRequestDto;
-import com.sparta.currency_user.dto.currency.CurrencyResponseDto;
+import com.sparta.currency_user.dto.currency.*;
 import com.sparta.currency_user.entity.Currency;
 import com.sparta.currency_user.entity.CurrencyExchange;
 import com.sparta.currency_user.entity.User;
@@ -48,6 +45,12 @@ public class CurrencyService {
         CurrencyExchange currencyExchange = currencyExchangeRepository.save(new CurrencyExchange(user, currency, currencyRequestDto));
         return new ChangeCurrencyResponseDto(currencyExchange);
 
+
+    }
+
+    public List<ChangeCurrencyHistoryResponseDto> checkHistory(Long userId) {
+        List<CurrencyExchange> history = currencyExchangeRepository.findCurrencyExchangeByUser_Id(userId);
+        return history.stream().map(ChangeCurrencyHistoryResponseDto::todto).toList();
 
     }
 }
