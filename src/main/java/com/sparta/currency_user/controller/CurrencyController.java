@@ -33,44 +33,5 @@ public class CurrencyController {
     public ResponseEntity<CurrencyResponseDto> createCurrency(@Validated @RequestBody CurrencyRequestDto currencyRequestDto) {
         return ResponseEntity.ok().body(currencyService.save(currencyRequestDto));
     }
-    @PostMapping("/{id}/exchange") // 환전 요청
-    public ResponseEntity<ChangeCurrencyResponseDto> changeCurrency(@PathVariable Long id , @Validated @RequestBody ChangeCurrencyRequestDto currencyRequestDto, HttpServletRequest request) {
-        HttpSession session = request.getSession(false);
-        if(session==null){
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,"세션이 없습니다");
-        }
-        Long userId = (Long) session.getAttribute("SESSION_KEY");
 
-        ChangeCurrencyResponseDto changeCurrencyResponseDto = currencyService.chargeCurrency(id, userId, currencyRequestDto);
-        return new ResponseEntity<>(changeCurrencyResponseDto, HttpStatus.OK);
-    }
-    @GetMapping("/history")
-    public ResponseEntity<List<ChangeCurrencyHistoryResponseDto>>  checkHistory(HttpServletRequest request) {
-        HttpSession session = request.getSession(false);
-        if(session==null) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,"세션이 없습니다.");
-        }
-        Long userId = (Long) session.getAttribute("SESSION_KEY");
-        List<ChangeCurrencyHistoryResponseDto> changeCurrencyHistory = currencyService.checkHistory(userId);
-        return new ResponseEntity<>(changeCurrencyHistory,HttpStatus.OK);
-    }
-    @PatchMapping("{currencyId}")
-    public void cancelChangeCurrency(@PathVariable Long currencyId ,HttpServletRequest request) {
-        HttpSession session = request.getSession(false);
-        if(session==null) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,"세션이 없습니다.");
-        }
-        Long userId = (Long) session.getAttribute("SESSION_KEY");
-        currencyService.cancel(currencyId,userId);
-    }
-    @GetMapping("/total")
-    public ResponseEntity<List<TotalUserCurrencyResponseDto>> checkTotal(HttpServletRequest request) {
-        HttpSession session = request.getSession(false);
-        if(session==null){
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,"세션이 없습니다");
-        }
-        Long userId = (Long) session.getAttribute("SESSION_KEY");
-        List<TotalUserCurrencyResponseDto> totalUserCurrencyResponseDtos = currencyService.checkTotal(userId);
-        return new ResponseEntity<>(totalUserCurrencyResponseDtos,HttpStatus.OK);
-    }
 }

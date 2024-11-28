@@ -32,7 +32,7 @@ public class CurrencyExchange {
         this.user=user;
         this.currency=currency;
         this.preExchangeAmount=currencyRequestDto.getPreExchangeAmount();
-        this.postExchangeAmount = BigDecimal.valueOf(preExchangeAmount).divide(currency.getExchangeRate(),2, RoundingMode.FLOOR);
+        this.postExchangeAmount = BigDecimal.valueOf(preExchangeAmount).divide(currency.getExchangeRate(),currency.getCurrencyName().getDigits(), RoundingMode.HALF_UP);
         this.status=Status.NOMAL;
     }
     public void cancel(){

@@ -2,6 +2,7 @@ package com.sparta.currency_user.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import org.springframework.format.annotation.NumberFormat;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -13,8 +14,7 @@ public class Currency extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id; // 통화 고유 식별자
-
-    private String currencyName; // 통화 이름
+    private CurrencyName currencyName; // 통화 이름
     private BigDecimal exchangeRate; // 환율
     private String symbol; // 표시
     @OneToMany(mappedBy = "currency")
@@ -22,7 +22,7 @@ public class Currency extends BaseEntity{
 
 
     public Currency(String currencyName, BigDecimal exchangeRate, String symbol) {
-        this.currencyName = currencyName;
+        this.currencyName=CurrencyName.toCurrencyName(currencyName);
         this.exchangeRate = exchangeRate;
         this.symbol = symbol;
     }
