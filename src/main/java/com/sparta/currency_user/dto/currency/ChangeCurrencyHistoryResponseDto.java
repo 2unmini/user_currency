@@ -10,17 +10,17 @@ import java.math.BigDecimal;
 public class ChangeCurrencyHistoryResponseDto {
     private Long id; // 환전 접수 식별자
     private Long preExchangeAmount; // 환전 전 금액
-    private BigDecimal postExchangeAmount; // 환전 후 금액
+    private String postExchangeAmount; // 환전 후 금액
     private Status status; // 요청 상태
     
-    public ChangeCurrencyHistoryResponseDto(Long id, Long preExchangeAmount, BigDecimal postExchangeAmount, Status status) {
-        this.id = id;
-        this.preExchangeAmount = preExchangeAmount;
-        this.postExchangeAmount = postExchangeAmount;
-        this.status = status;
+    public ChangeCurrencyHistoryResponseDto(CurrencyExchange currencyExchange) {
+        this.id = currencyExchange.getId();
+        this.preExchangeAmount = currencyExchange.getPreExchangeAmount();
+        this.postExchangeAmount = currencyExchange.getPostExchangeAmount()+currencyExchange.getCurrency().getSymbol();
+        this.status = currencyExchange.getStatus();
     }
 
     public static ChangeCurrencyHistoryResponseDto todto(CurrencyExchange currencyExchange) {
-        return new ChangeCurrencyHistoryResponseDto(currencyExchange.getId(), currencyExchange.getPreExchangeAmount(), currencyExchange.getPostExchangeAmount(), currencyExchange.getStatus());
+        return new ChangeCurrencyHistoryResponseDto(currencyExchange);
     }
 }
