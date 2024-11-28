@@ -1,16 +1,14 @@
 package com.sparta.currency_user.exception;
 
 import lombok.Getter;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 
 @Getter
 public class ErrorResponse {
-    private int errorCode; // 오류 코드
-    private String errorMessage;
+    private String errorCode; // 오류 코드
+    private String errorMessage; // 오류 메시지
 
-    public ErrorResponse(HttpStatusCode errorCode, String errorMessage) {
-        this.errorCode = errorCode.value();
+    public ErrorResponse(String errorCode, String errorMessage) {
+        this.errorCode = errorCode;
         this.errorMessage = errorMessage;
     }
 }

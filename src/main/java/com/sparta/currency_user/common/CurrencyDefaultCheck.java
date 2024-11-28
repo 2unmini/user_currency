@@ -15,10 +15,13 @@ import java.util.stream.Stream;
 @RequiredArgsConstructor
 public class CurrencyDefaultCheck {
     private final CurrencyRepository currencyRepository;
+/*
+curreny테이블에 유효하지 않은 환율이 들어갔다면 로그를 출력
+ */
     @PostConstruct
     public void init() {
         List<Currency> currencys = currencyRepository.findAll();
-        Stream<Currency> currencyStream = currencys.stream().filter(currency ->  currency.getExchangeRate().intValue() <= 0);
-        currencyStream.forEach(currency->log.info("유효하지 않은 환율 입니다 통화 코드:{},환율:{}",currency.getSymbol(),currency.getExchangeRate()));
+        Stream<Currency> currencyStream = currencys.stream().filter(currency -> currency.getExchangeRate().intValue() <= 0);
+        currencyStream.forEach(currency -> log.info("유효하지 않은 환율 입니다 통화 코드:{},환율:{}", currency.getSymbol(), currency.getExchangeRate()));
     }
 }

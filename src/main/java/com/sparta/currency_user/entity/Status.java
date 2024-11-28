@@ -4,6 +4,5 @@ import lombok.Getter;
 
 @Getter
 public enum Status { // 환전 상태
-    NOMAL
-    ,CANCALLED
+    NORMAL, CANCELED
 }

@@ -8,11 +8,11 @@ import java.math.BigDecimal;
 
 @Getter
 public class CurrencyResponseDto {
-    private Long id;
 
-    private CurrencyName currencyName;
-    private BigDecimal exchangeRate;
-    private String symbol;
+    private Long id; // 통화 식별자
+    private CurrencyName currencyName; //통화 이름
+    private BigDecimal exchangeRate; // 환율
+    private String symbol; // 통화 기호
 
     public CurrencyResponseDto(Currency currency) {
         this.id = currency.getId();
@@ -30,10 +30,10 @@ public class CurrencyResponseDto {
 
     public static CurrencyResponseDto toDto(Currency currency) {
         return new CurrencyResponseDto(
-            currency.getId(),
-            currency.getCurrencyName(),
-            currency.getExchangeRate(),
-            currency.getSymbol()
+                currency.getId(),
+                currency.getCurrencyName(),
+                currency.getExchangeRate(),
+                currency.getSymbol()
         );
     }
 }

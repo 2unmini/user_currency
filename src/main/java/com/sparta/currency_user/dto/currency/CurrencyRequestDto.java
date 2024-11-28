@@ -1,7 +1,6 @@
 package com.sparta.currency_user.dto.currency;
 
 import com.sparta.currency_user.entity.Currency;
-import com.sparta.currency_user.entity.CurrencyName;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 
@@ -12,7 +11,7 @@ public class CurrencyRequestDto {
     @NotBlank(message = "통화 이름을 입력해주세요")
     private String currencyName;
     private BigDecimal exchangeRate;
-    @NotBlank(message = "통화 기호를 입력해주dy")
+    @NotBlank(message = "통화 기호를 입력해주세요")
     private String symbol;
 
     public Currency toEntity() {

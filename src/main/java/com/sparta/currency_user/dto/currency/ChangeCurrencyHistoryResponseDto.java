@@ -8,14 +8,11 @@ import java.math.BigDecimal;
 
 @Getter
 public class ChangeCurrencyHistoryResponseDto {
-    private Long id;
-    private Long preExchangeAmount;
-    private BigDecimal postExchangeAmount;
-    private Status status;
-
-    public ChangeCurrencyHistoryResponseDto() {
-    }
-
+    private Long id; // 환전 접수 식별자
+    private Long preExchangeAmount; // 환전 전 금액
+    private BigDecimal postExchangeAmount; // 환전 후 금액
+    private Status status; // 요청 상태
+    
     public ChangeCurrencyHistoryResponseDto(Long id, Long preExchangeAmount, BigDecimal postExchangeAmount, Status status) {
         this.id = id;
         this.preExchangeAmount = preExchangeAmount;
@@ -24,6 +21,6 @@ public class ChangeCurrencyHistoryResponseDto {
     }
 
     public static ChangeCurrencyHistoryResponseDto todto(CurrencyExchange currencyExchange) {
-        return new ChangeCurrencyHistoryResponseDto(currencyExchange.getId(),currencyExchange.getPreExchangeAmount(),currencyExchange.getPostExchangeAmount(),currencyExchange.getStatus());
+        return new ChangeCurrencyHistoryResponseDto(currencyExchange.getId(), currencyExchange.getPreExchangeAmount(), currencyExchange.getPostExchangeAmount(), currencyExchange.getStatus());
     }
 }

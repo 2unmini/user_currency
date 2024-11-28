@@ -8,27 +8,22 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import java.util.HashMap;
-import java.util.Map;
-
-/*
-TODO
- */
+// ERR01 : 원하는 값을 찾을 수 없을 때 생기는 오류 . ERR02 : 유효성 검사 실패 시 발생하는 오류
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
     @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<Map<String,String>> illegalArgumentExceptionHandle(IllegalArgumentException e){
-        Map<String,String> response = new HashMap<>();
-        response.put("errorCode","ERR001");
-        response.put("errorMessage",e.getMessage());
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+    public ResponseEntity<ErrorResponse> illegalArgumentExceptionHandle(IllegalArgumentException e) {
+        ErrorResponse errorResponse = new ErrorResponse("ERR001", e.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
     }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponse> methodArgumentNotValidExceptionHandle(MethodArgumentNotValidException e, BindingResult result) {
         FieldError fieldError = result.getFieldError();
-        ErrorResponse errorResponse = new ErrorResponse(e.getStatusCode(),fieldError.getDefaultMessage());
+        ErrorResponse errorResponse = new ErrorResponse("ERRO02", fieldError.getDefaultMessage());
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
     }
+
 }

@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @MappedSuperclass
 public class BaseEntity { // Entity의 공통적으로 들어가는 필드
     @CreatedDate
-    @Column(name = "created_at" ,updatable = false)
+    @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt; // 생성 일시
     @Column(name = "updated_at")
     @LastModifiedDate

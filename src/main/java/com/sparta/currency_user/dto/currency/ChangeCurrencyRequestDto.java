@@ -5,6 +5,6 @@ import lombok.Getter;
 
 @Getter
 public class ChangeCurrencyRequestDto {
-    @Min(value = 100,message = "100원 이상 입력해주세요")
-    private Long preExchangeAmount;
+    @Min(value = 100, message = "100원 이상 입력해주세요")
+    private Long preExchangeAmount; //환전 할 금액
 }

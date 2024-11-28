@@ -1,14 +1,11 @@
 package com.sparta.currency_user.dto.currency;
 
-import com.sparta.currency_user.entity.CurrencyExchange;
 import lombok.Getter;
 
-import java.math.BigDecimal;
 @Getter
 public class TotalUserCurrencyResponseDto {
-    private Long count;
-    private Long totalAmountInKrw;
-
+    private Long count; // 요청한 접수 수(취소 된 건 제외)
+    private Long totalAmountInKrw; //환전 요청 총 금액
 
 
     public TotalUserCurrencyResponseDto(Long count, Long totalAmountInKrw) {

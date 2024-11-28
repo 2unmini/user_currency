@@ -40,6 +40,6 @@ public class UserService {
     }
 
     public User login(UserRequestDto requestDto) {
-        return userRepository.findByEmail(requestDto.getEmail()).orElseThrow(()->new IllegalArgumentException("로그인 실패"));
+        return userRepository.findByEmail(requestDto.getEmail()).orElseThrow(() -> new IllegalArgumentException("로그인 실패"));
     }
 }

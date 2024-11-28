@@ -8,9 +8,9 @@ import lombok.Getter;
 @Getter
 public class UserRequestDto {
     @NotBlank(message = "이름을 입력하세요")
-    private String name;
+    private String name;// 사용자 이름
     @Email(message = "이메일을 입력하세요")
-    private String email;
+    private String email; // 사용자 이메일
 
     public User toEntity() {
         return new User(
