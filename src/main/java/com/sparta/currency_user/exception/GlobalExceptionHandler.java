@@ -8,7 +8,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-// ERR01 : 원하는 값을 찾을 수 없을 때 생기는 오류 . ERR02 : 유효성 검사 실패 시 발생하는 오류
+// ERR001 : 원하는 값을 찾을 수 없을 때 생기는 오류 . ERR002 : 유효성 검사 실패 시 발생하는 오류
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -21,7 +21,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponse> methodArgumentNotValidExceptionHandle(MethodArgumentNotValidException e, BindingResult result) {
         FieldError fieldError = result.getFieldError();
-        ErrorResponse errorResponse = new ErrorResponse("ERRO02", fieldError.getDefaultMessage());
+        ErrorResponse errorResponse = new ErrorResponse("ERR002", fieldError.getDefaultMessage());
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
     }
