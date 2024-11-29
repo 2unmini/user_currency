@@ -4,8 +4,6 @@ import com.sparta.currency_user.entity.CurrencyExchange;
 import com.sparta.currency_user.entity.Status;
 import lombok.Getter;
 
-import java.math.BigDecimal;
-
 @Getter
 public class ChangeCurrencyResponseDto {
     private Long preExchangeAmount; //환전 전 금액
@@ -14,7 +12,7 @@ public class ChangeCurrencyResponseDto {
 
     public ChangeCurrencyResponseDto(CurrencyExchange currencyExchange) {
         this.preExchangeAmount = currencyExchange.getPreExchangeAmount();
-        this.postExchangeAmount = currencyExchange.getPostExchangeAmount()+currencyExchange.getCurrency().getSymbol();
+        this.postExchangeAmount = currencyExchange.getPostExchangeAmount() + currencyExchange.getCurrency().getSymbol();
         this.status = currencyExchange.getStatus();
     }
 }

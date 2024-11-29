@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+
 @RequiredArgsConstructor
 @Service
 public class CurrencyExchangeService {
@@ -42,7 +43,7 @@ public class CurrencyExchangeService {
     @Transactional
     public void cancel(Long receptionId, Long userId) {
         User user = userService.findUserById(userId);
-        CurrencyExchange currencyExchange = currencyExchangeRepository.findById(receptionId ).orElseThrow(() -> new IllegalArgumentException("잘못된 접근입니다"));
+        CurrencyExchange currencyExchange = currencyExchangeRepository.findById(receptionId).orElseThrow(() -> new IllegalArgumentException("잘못된 접근입니다"));
         if (!user.getId().equals(currencyExchange.getUser().getId())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "권한이 없습니다");
         }
@@ -52,7 +53,7 @@ public class CurrencyExchangeService {
     @Transactional
     public List<TotalUserCurrencyResponseDto> checkTotal(Long userId) {
         User user = userService.findUserById(userId);
-        CurrencyExchange currencyExchange = currencyExchangeRepository.findById(user.getId()).orElseThrow();
+        currencyExchangeRepository.findById(user.getId()).orElseThrow(() -> new IllegalArgumentException("잘못된 접근입니다"));
         return currencyExchangeRepository.findUserCurrencyAndAmount(user.getId(), Status.NORMAL);
     }
 
